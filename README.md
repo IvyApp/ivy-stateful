@@ -1,5 +1,7 @@
 # ivy-stateful
 
+[![Build Status](https://travis-ci.org/IvyApp/ivy-stateful.svg?branch=master)](https://travis-ci.org/IvyApp/ivy-stateful)
+
 Simple [State Machines](http://en.wikipedia.org/wiki/Finite-state\_machine) for
 Ember apps, based on Ember Data's `DS.Model` state machine.
 
