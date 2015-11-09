@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 function wireState(state, parentState, stateName) {
-  state = Ember.mixin(parentState ? Ember.create(parentState) : {}, state);
+  state = Ember.mixin(parentState ? Object.create(parentState) : {}, state);
   state.parentState = parentState;
   state.stateName = stateName;
 
