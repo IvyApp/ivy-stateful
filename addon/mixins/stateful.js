@@ -5,7 +5,7 @@ function wireState(state, parentState, stateName) {
   state.parentState = parentState;
   state.stateName = stateName;
 
-  for (var prop in state) {
+  for (let prop in state) {
     if (!state.hasOwnProperty(prop) || prop === 'parentState' || prop === 'stateName') { continue; }
     if (typeof state[prop] === 'object') {
       state[prop] = wireState(state[prop], state, stateName + '.' + prop);
@@ -19,7 +19,7 @@ export default Ember.Mixin.create({
   init: function() {
     this._super();
 
-    var rootState = this.get('rootState');
+    let rootState = this.get('rootState');
     if (rootState) {
       rootState = wireState(rootState, null, 'rootState');
     } else {
@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
 
     this.set('currentState', rootState);
 
-    var initialState = this.get('initialState');
+    let initialState = this.get('initialState');
     if (!initialState) {
       throw new Ember.Error('No initialState defined on ' + String(this) + '.');
     }
@@ -37,7 +37,7 @@ export default Ember.Mixin.create({
   },
 
   send: function(name) {
-    var currentState = this.get('currentState');
+    let currentState = this.get('currentState');
 
     if (!currentState[name]) {
       throw new Ember.Error('Attempted to handle event "' + name +
@@ -45,24 +45,24 @@ export default Ember.Mixin.create({
                             currentState.stateName + '.');
     }
 
-    var args = [this].concat(Array.prototype.slice.call(arguments, 1));
+    let args = [this].concat(Array.prototype.slice.call(arguments, 1));
 
     return currentState[name].apply(null, args);
   },
 
   transitionTo: function(name) {
-    var pivotName = name.split('.').shift();
-    var currentState = this.get('currentState');
-    var state = currentState;
+    let pivotName = name.split('.').shift();
+    let currentState = this.get('currentState');
+    let state = currentState;
 
     while (state.parentState && !state.hasOwnProperty(pivotName)) {
       if (state.exit) { state.exit(this); }
       state = state.parentState;
     }
 
-    var path = name.split('.');
+    let path = name.split('.');
 
-    for (var i = 0; i < path.length; i++) {
+    for (let i = 0; i < path.length; i++) {
       state = state[path[i]];
       if (state.enter) { state.enter(this); }
     }
